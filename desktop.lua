@@ -196,6 +196,17 @@ end
 -- @return files table with found entries
 function desktop.parse_dirs_and_files(dir)
     local files = {}
+    local paths = pipelines('find '..dir..' -maxdepth 1 -type l |sort|tail -n +1')
+    for path in paths do
+        if path:match("[^/]+$") then
+            local file = {}
+            file.filename = path:match("[^/]+$")
+            file.path = path
+            file.show = true
+            file.icon = desktop.lookup_file_icon(file.filename)
+            table.insert(files, file)
+        end
+    end
     local paths = pipelines('find '..dir..' -maxdepth 1 -type d |sort|tail -n +1')
     for path in paths do
         if path:match("[^/]+$") then

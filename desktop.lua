@@ -15,6 +15,7 @@ local awful  = require("awful")
 local theme  = require("beautiful")
 local utils  = require("menubar.utils")
 local wibox  = require("wibox")
+local math   = require("math")
 
 local io     = io
 local ipairs = ipairs
@@ -85,7 +86,7 @@ function desktop.add_single_icon(args, label, icon, onclick)
     if tot_height == 0 then return end
 
     if dcp[s].y + tot_height > screen[s].geometry.y + screen[s].geometry.height - 20 - args.margin.y then
-        dcp[s].x = dcp[s].x + args.labelsize.width + args.iconsize.width + args.margin.x
+        dcp[s].x = dcp[s].x + math.max(args.labelsize.width, args.iconsize.width) + args.margin.x
         dcp[s].y = 20 + args.margin.y + screen[s].geometry.y
     end
 
